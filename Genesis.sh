@@ -20,7 +20,7 @@ print_banner() {
 
 print_protocol() {
     # echo -e "${Grey}--------------------------${RCol}"
-    echo -e "PROTOCOL: ${BRed}GENESIS${RCol}"
+    echo -e " PROTOCOL: ${BRed}GENESIS${RCol}"
 	echo -e "" # 
 }
 
@@ -134,10 +134,23 @@ case "$MODE" in
 			fi
 		fi
 
-        # Optional ZSH
+		# Optional ZSH
         echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH; echo
-        [[ "$confirm_ZSH" == "y" ]] && sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y && chsh -s $(which zsh)
+        if [[ "$confirm_ZSH" == "y" ]]; then
+            sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
+            
+            echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
+            read -n 1 confirm_kali; echo
+            if [[ "$confirm_kali" == "y" ]]; then
+                #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
+                curl -sL "https://raw.githubusercontent.com/I-am-Providence/Genesis/main/Kali-style-zsh-config" -o "$HOME/.zshrc"
+                chown $USER:$USER "$HOME/.zshrc"
+            fi
+
+            sudo chsh -s $(which zsh) $USER
+            echo -e "ZSH configured."
+        fi
 
         echo -e "${BGre}Upgrading...${RCol}"
         sudo apt upgrade -y
@@ -201,10 +214,23 @@ case "$MODE" in
 			fi
 		fi
 
-        # Optional ZSH
+		# Optional ZSH
         echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH; echo
-        [[ "$confirm_ZSH" == "y" ]] && sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y && chsh -s $(which zsh)
+        if [[ "$confirm_ZSH" == "y" ]]; then
+            sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
+            
+            echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
+            read -n 1 confirm_kali; echo
+            if [[ "$confirm_kali" == "y" ]]; then
+                #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
+                curl -sL "https://raw.githubusercontent.com/I-am-Providence/Genesis/main/Kali-style-zsh-config" -o "$HOME/.zshrc"
+                chown $USER:$USER "$HOME/.zshrc"
+            fi
+
+            sudo chsh -s $(which zsh) $USER
+            echo -e "ZSH configured."
+        fi
 
         echo -e "${BGre}Upgrading...${RCol}"
         sudo apt upgrade -y

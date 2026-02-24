@@ -3,16 +3,6 @@
 # --- Colors & Styles ---
 RCol='\e[0m'; BGre='\e[1;32m'; BYel='\e[1;33m'; BRed='\e[1;31m'; BBlu='\e[1;34m'; BPUR='\e[1;35m'; BWhI='\e[1;37m'; Grey='\e[0;38m'
 
-# --- Force Terminal Logic ---
-if [ ! -t 0 ]; then
-    for term in gnome-terminal x-terminal-emulator konsole xfce4-terminal xterm; do
-        if command -v $term >/dev/null 2>&1; then
-            if [ "$term" = "gnome-terminal" ]; then $term -- bash "$0" "$@"; else $term -e bash "$0" "$@"; fi
-            exit 0
-        fi
-    done
-fi
-
 # --- Helper Functions ---
 update_env() {
     local key=$1

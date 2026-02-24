@@ -196,7 +196,7 @@ case "$MODE" in
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional GNOME
-        echo -en "${BGre}[?]: Apply GNOME patches? (y/n): ${RCol}"
+        echo -en "${BBlu}[?]: Apply GNOME patches? (y/n): ${RCol}"
         read -n 1 confirm_gnome < /dev/tty; echo
         [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
 

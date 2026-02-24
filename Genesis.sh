@@ -14,13 +14,13 @@ update_env() {
 
 print_banner() {
     clear
-    echo -e "${BWhI}SEED OF EXPANSION ${RCol}"
+    echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol}"
 	echo -e "" #
 }
 
 print_protocol() {
     # echo -e "${Grey}--------------------------${RCol}"
-    echo -e "PROTOCOL: ${BRed}GENESIS${RCol}"
+    echo -e "[>]: PROTOCOL: ${BRed}GENESIS${RCol}"
 	echo -e "" #
 }
 
@@ -31,14 +31,14 @@ fi
 
 print_banner
 print_protocol
-echo -e "${BYel}Select installation type:${RCol}"
+echo -e "${BYel}[?]: Select installation type:${RCol}"
 MODE=$(echo -e "[  CANCEL & EXIT  ]\n───────────────────\n[ LOCAL COMPUTER  ]\n[ VIRTUAL MACHINE ]\n[ SERVER (DEBIAN) ]" | fzf --height 15% --reverse --border)
 
 case "$MODE" in
     "[ SERVER (DEBIAN) ]")
         print_banner
 		print_protocol
-        echo -e "MODE: ${BYel}SERVER (DEBIAN) ${RCol}\n"
+        echo -e "[$]: MODE: ${BYel}SERVER (DEBIAN) ${RCol}\n"
 
         # Structure
         for dir in "/Polaris" "/Colosseum" "/Ark" "/Ark/Backups"; do
@@ -55,15 +55,15 @@ case "$MODE" in
         sudo ufw allow 22/tcp
 
         # Firewall
-        echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
+        echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional Tailscale login
-        echo -en "${BGre}Log in to Tailscale with authkey? (y/n): ${RCol}"
+        echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
-            echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
+            echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
             if [[ "$input_key" == *"tailscale up"* ]]; then
@@ -73,14 +73,14 @@ case "$MODE" in
             fi
         fi
 
-        echo -e "${BGre}Upgrading...${RCol}"
+        echo -e "${BGre}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
     "[ VIRTUAL MACHINE ]")
         print_banner
 		print_protocol
-        echo -e "MODE: ${BBlu}VIRTUAL MACHINE ${RCol}\n"
+        echo -e "[$]: MODE: ${BBlu}VIRTUAL MACHINE ${RCol}\n"
 
         # Structure
         for dir in "/Yggdrasil" "/Ark" "/Ark/Backups"; do
@@ -111,20 +111,20 @@ case "$MODE" in
         id "jellyfin" &>/dev/null && sudo usermod -aG $USER jellyfin && chmod 750 /home/$USER
 
         # Firewall
-        echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
+        echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional GNOME
-        echo -en "${BBlu}Apply GNOME patches? (y/n): ${RCol}"
+        echo -en "${BBlu}[?]: Apply GNOME patches? (y/n): ${RCol}"
         read -n 1 confirm_gnome < /dev/tty; echo
         [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
 
         # Optional Tailscale login
-        echo -en "${BGre}Log in to Tailscale with authkey? (y/n): ${RCol}"
+        echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
-            echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
+            echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
             if [[ "$input_key" == *"tailscale up"* ]]; then
@@ -135,12 +135,12 @@ case "$MODE" in
         fi
 
 		# Optional ZSH
-        echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
+        echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
             sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
 
-            echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
+            echo -en "${BCY}[?]: Apply Kali-style .zshrc config? (y/n): ${RCol}"
             read -n 1 confirm_kali < /dev/tty; echo
             if [[ "$confirm_kali" == "y" ]]; then
                 #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
@@ -149,17 +149,17 @@ case "$MODE" in
             fi
 
             sudo chsh -s $(which zsh) $USER
-            echo -e "ZSH configured. Logout and login again to activate ZSH."
+            echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
 
-        echo -e "${BGre}Upgrading...${RCol}"
+        echo -e "${BGre}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
     "[ LOCAL COMPUTER  ]")
         print_banner
 		print_protocol
-        echo -e "MODE: ${BGre}LOCAL COMPUTER ${RCol}\n"
+        echo -e "[$]: MODE: ${BGre}LOCAL COMPUTER ${RCol}\n"
 
         # Structure
         for dir in "/Yggdrasil" "/Ark" "/Ark/Backups"; do
@@ -191,20 +191,20 @@ case "$MODE" in
         sudo flatpak override --filesystem=/usr/share/icons:ro 2>/dev/null
 
         # Firewall
-        echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
+        echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional GNOME
-        echo -en "${BGre}Apply GNOME patches? (y/n): ${RCol}"
+        echo -en "${BGre}[?]: Apply GNOME patches? (y/n): ${RCol}"
         read -n 1 confirm_gnome < /dev/tty; echo
         [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
 
         # Optional Tailscale login
-        echo -en "${BGre}Log in to Tailscale with authkey? (y/n): ${RCol}"
+        echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
-            echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
+            echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
             if [[ "$input_key" == *"tailscale up"* ]]; then
@@ -215,12 +215,12 @@ case "$MODE" in
         fi
 
 		# Optional ZSH
-        echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
+        echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
             sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
 
-            echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
+            echo -en "${BCY}[?]: Apply Kali-style .zshrc config? (y/n): ${RCol}"
             read -n 1 confirm_kali < /dev/tty; echo
             if [[ "$confirm_kali" == "y" ]]; then
                 #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
@@ -229,10 +229,10 @@ case "$MODE" in
             fi
 
             sudo chsh -s $(which zsh) $USER
-            echo -e "ZSH configured. Logout and login again to activate ZSH."
+            echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
 
-        echo -e "${BGre}Upgrading...${RCol}"
+        echo -e "${BGre}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -247,6 +247,6 @@ echo -e "\n${BGre}[#]:${RCol}DONE. Genesis finished."
 
 # --- Keep terminal open for log review ---
 echo -e "\n${BWhI}  ${RCol}"
-echo -e "[!]: ${BYel}Press 'Enter' to exit terminal.${RCol}"
+echo -e "${BYel}[!]: Press 'Enter' to exit terminal.${RCol}"
 read
 exit 0

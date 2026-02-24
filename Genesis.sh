@@ -31,7 +31,7 @@ fi
 
 print_banner
 print_protocol
-echo -e "${BYel} Select installation type:${RCol}"
+echo -e "${BYel}Select installation type:${RCol}"
 MODE=$(echo -e "[  CANCEL & EXIT  ]\n───────────────────\n[ LOCAL COMPUTER  ]\n[ VIRTUAL MACHINE ]\n[ SERVER (DEBIAN) ]" | fzf --height 15% --reverse --border)
 
 case "$MODE" in

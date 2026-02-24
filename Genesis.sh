@@ -245,18 +245,6 @@ esac
 # --- Final Phase ---
 echo -e "\n${BGre}[#]:${RCol}DONE. Genesis finished."
 
-if [ -f "./Expansion.py" ]; then
-    echo -en "${BYel}Launch Expansion Protocol? (y/n): ${RCol}"
-    read -n 1 confirm_exp; echo
-    if [[ "$confirm_exp" == "y" ]]; then
-        chmod +x ./Expansion.py
-        python3 ./Expansion.py
-    else
-        echo -e "${Grey}Expansion Protocol skipped.${RCol}"
-    fi
-else
-    echo -e "${BRed}[X]:${RCol} ERROR. Expansion.py not found."
-fi
 
 # --- Keep terminal open for log review ---
 echo -e "\n${BWhI}  ${RCol}"

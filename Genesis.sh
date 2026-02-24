@@ -105,6 +105,7 @@ case "$MODE" in
         # Fixes
         update_env "QT_QPA_PLATFORMTHEME" "qt5ct"
         update_env "QT_LOGGING_RULES" "\"qt.svg*.warning=false\""
+		sudo usermod -aG vboxsf $USER
 
         # Media
         curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash

@@ -20,6 +20,7 @@ print_banner() {
 
 print_protocol() {
     # echo -e "${Grey}--------------------------${RCol}"
+    echo -e "PROTOCOL: ${BRed}GENESIS${RCol}"
 	echo -e "" # 
 }
 

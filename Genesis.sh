@@ -15,13 +15,13 @@ update_env() {
 print_banner() {
     clear
     echo -e "${BWhI}SEED OF EXPANSION ${RCol}"
-	echo -e "" # 
+	echo -e "" #
 }
 
 print_protocol() {
     # echo -e "${Grey}--------------------------${RCol}"
     echo -e " PROTOCOL: ${BRed}GENESIS${RCol}"
-	echo -e "" # 
+	echo -e "" #
 }
 
 # --- Initialization ---
@@ -56,15 +56,15 @@ case "$MODE" in
 
         # Firewall
         echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
-        read -n 1 confirm_ufw; echo
+        read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
 		# Optional Tailscale login
 		echo -en "${BGre}Log in to Tailscale with authkey? (y/n): ${RCol}"
-		read -n 1 confirm_tailscale; echo
+		read -n 1 confirm_tailscale < /dev/tty; echo
 		if [[ "$confirm_tailscale" == "y" ]]; then
 			echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
-			read -r input_key
+			read -r input_key < /dev/tty; echo
 
 			if [[ "$input_key" == *"tailscale up"* ]]; then
 				sudo $input_key
@@ -112,12 +112,12 @@ case "$MODE" in
 
         # Firewall
         echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
-        read -n 1 confirm_ufw; echo
+        read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional GNOME
         echo -en "${BBlu}Apply GNOME patches? (y/n): ${RCol}"
-        read -n 1 confirm_gnome; echo
+        read -n 1 confirm_gnome < /dev/tty; echo
         [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
 
 		# Optional Tailscale login
@@ -125,7 +125,7 @@ case "$MODE" in
 		read -n 1 confirm_tailscale; echo
 		if [[ "$confirm_tailscale" == "y" ]]; then
 			echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
-			read -r input_key
+			read -r input_key < /dev/tty; echo
 
 			if [[ "$input_key" == *"tailscale up"* ]]; then
 				sudo $input_key
@@ -136,12 +136,12 @@ case "$MODE" in
 
 		# Optional ZSH
         echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
-        read -n 1 confirm_ZSH; echo
+        read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
             sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
-            
+
             echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
-            read -n 1 confirm_kali; echo
+            read -n 1 confirm_kali < /dev/tty; echo
             if [[ "$confirm_kali" == "y" ]]; then
                 #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
                 curl -sL "https://raw.githubusercontent.com/I-am-Providence/Genesis/main/Kali-style-zsh-config" -o "$HOME/.zshrc"
@@ -192,20 +192,20 @@ case "$MODE" in
 
         # Firewall
         echo -en "${BRed}Enable Firewall? (y/n): ${RCol}"
-        read -n 1 confirm_ufw; echo
+        read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional GNOME
         echo -en "${BGre}Apply GNOME patches? (y/n): ${RCol}"
-        read -n 1 confirm_gnome; echo
+        read -n 1 confirm_gnome < /dev/tty; echo
         [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
 
 		# Optional Tailscale login
 		echo -en "${BGre}Log in to Tailscale with authkey? (y/n): ${RCol}"
-		read -n 1 confirm_tailscale; echo
+		read -n 1 confirm_tailscale < /dev/tty; echo
 		if [[ "$confirm_tailscale" == "y" ]]; then
 			echo -e "${BYel}Paste your authkey (or the whole command):${RCol}"
-			read -r input_key
+			read -r input_key < /dev/tty; echo
 
 			if [[ "$input_key" == *"tailscale up"* ]]; then
 				sudo $input_key
@@ -216,12 +216,12 @@ case "$MODE" in
 
 		# Optional ZSH
         echo -en "${BPUR}Install ZSH? (y/n): ${RCol}"
-        read -n 1 confirm_ZSH; echo
+        read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
             sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting tree -y
-            
+
             echo -en "${BCY}Apply Kali-style .zshrc config? (y/n): ${RCol}"
-            read -n 1 confirm_kali; echo
+            read -n 1 confirm_kali < /dev/tty; echo
             if [[ "$confirm_kali" == "y" ]]; then
                 #echo -e "${Grey}[>]: Downloading Kali config...${RCol}"
                 curl -sL "https://raw.githubusercontent.com/I-am-Providence/Genesis/main/Kali-style-zsh-config" -o "$HOME/.zshrc"
@@ -244,7 +244,6 @@ esac
 
 # --- Final Phase ---
 echo -e "\n${BGre}[#]:${RCol}DONE. Genesis finished."
-
 
 # --- Keep terminal open for log review ---
 echo -e "\n${BWhI}  ${RCol}"

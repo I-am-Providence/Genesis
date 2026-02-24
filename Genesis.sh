@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- Colors & Styles ---
-RCol='\e[0m'; BGre='\e[1;32m'; BYel='\e[1;33m'; BRed='\e[1;31m'; BBlu='\e[1;34m'; BPUR='\e[1;35m'; BWhI='\e[1;37m'; Grey='\e[0;38m'; BCY='\e[0;36m'
+RCol='\e[0m'; BGre='\e[1;32m'; BYel='\e[1;33m'; BRed='\e[1;31m'; BBlu='\e[1;34m'; BPUR='\e[1;35m'; BWhI='\e[1;37m'; Grey='\e[0;38m'; BCY='\e[1;36m'
 
 # --- Helper Functions ---
 update_env() {
@@ -73,7 +73,7 @@ case "$MODE" in
             fi
         fi
 
-        echo -e "${BGre}[*]: Upgrading...${RCol}"
+        echo -e "${BBlu}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -152,7 +152,7 @@ case "$MODE" in
             echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
 
-        echo -e "${BGre}[*]: Upgrading...${RCol}"
+        echo -e "${BBlu}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -232,7 +232,7 @@ case "$MODE" in
             echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
 
-        echo -e "${BGre}[*]: Upgrading...${RCol}"
+        echo -e "${BBlu}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -243,7 +243,7 @@ case "$MODE" in
 esac
 
 # --- Final Phase ---
-echo -e "\n${BGre}[#]:${RCol}DONE. Genesis finished."
+echo -e "\n${BGre}[#]: DONE. Genesis finished.${RCol}"
 
 # --- Keep terminal open for log review ---
 echo -e "\n${BWhI}  ${RCol}"

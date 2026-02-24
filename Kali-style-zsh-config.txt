@@ -94,7 +94,7 @@ fi
 configure_prompt() {
     prompt_symbol=⚡
     # Skull emoji for root terminal
-    #[ "$EUID" -eq 0 ] && prompt_symbol=💀
+    #[ "$EUID" -eq 0 ] && prompt_symbol=💀⭐⚡
     case "$PROMPT_ALTERNATIVE" in
         twoline)
             PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n'$prompt_symbol$'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
@@ -271,5 +271,4 @@ alias switch_to_zsh='chsh -s $(which zsh)'
 alias switch_to_bash='chsh -s /bin/bash'
 alias gemini_st='echo "# pollux:" && rclone about sftp_p: && echo "# castor:" && rclone about sftp_c:'
 alias cerberus_l='echo "# pollux:" && rclone cat sftp_p:/Gemini/Cerberus/logs/cerberus.log | tail -n 50 && echo "# castor:" && rclone cat sftp_c:/Gemini/Cerberus/logs/cerberus.log | tail -n 50'
-
 

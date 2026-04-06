@@ -92,7 +92,7 @@ case "$MODE" in
 
         # Software
         sudo apt update
-        sudo apt install -y python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins
+        sudo apt install -y python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc
         sudo sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
         curl https://rclone.org/install.sh | sudo bash
         curl -fsS https://dl.brave.com/install.sh | sh
@@ -172,7 +172,7 @@ case "$MODE" in
 
         # Software
         sudo apt update
-        sudo apt install -y python3 fzf rsync tar curl openssh-server transmission-remote-gtk ncdu tree vlc qbittorrent flatpak fuse3 qt5ct qt5-style-plugins
+        sudo apt install -y python3 fzf rsync tar curl openssh-server transmission-remote-gtk ncdu tree vlc qbittorrent flatpak fuse3 qt5ct qt5-style-plugins jq bc
         sudo sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
         curl https://rclone.org/install.sh | sudo bash
         curl -fsS https://dl.brave.com/install.sh | sh

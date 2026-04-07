@@ -47,7 +47,7 @@ case "$MODE" in
 
         # Software
         sudo apt update
-        sudo apt install -y python3 fzf rsync tar curl openssh-server ncdu tree transmission-daemon acl bc jq rename
+        sudo apt install -y python3 fzf rsync tar curl openssh-server ncdu tree transmission-daemon acl bc jq rename iptables-persistent
         curl https://rclone.org/install.sh | sudo bash
 
         # Tailscale & Network

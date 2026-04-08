@@ -53,13 +53,15 @@ case "$MODE" in
         # Tailscale & Network
         curl -fsSL https://tailscale.com/install.sh | sh
         sudo ufw allow 22/tcp
-
+		
         # Firewall
+		tcflush /dev/tty in 2>/dev/null
         echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional Tailscale login
+		tcflush /dev/tty in 2>/dev/null
         echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
@@ -247,8 +249,9 @@ esac
 echo -e "\n${BGre}[#]: DONE. Genesis finished.${RCol}"
 
 # --- Keep terminal open for log review ---
+while read -r -t 0; do read -r -n 1; done 2>/dev/null
 echo -e "\n${BWhI}  ${RCol}"
 echo -e "${BYel}[!]: Press any key to exit terminal.${RCol}"
-read -n 1 < /dev/tty
+read -rsn 1 < /dev/tty
 
 exit 0

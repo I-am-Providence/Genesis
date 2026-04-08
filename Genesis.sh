@@ -248,6 +248,7 @@ echo -e "\n${BGre}[#]: DONE. Genesis finished.${RCol}"
 
 # --- Keep terminal open for log review ---
 echo -e "\n${BWhI}  ${RCol}"
-echo -e "${BYel}[!]: Press 'Enter' to exit terminal.${RCol}"
-read
+echo -e "${BYel}[!]: Press any key to exit terminal.${RCol}"
+read -n 1 < /dev/tty
+
 exit 0

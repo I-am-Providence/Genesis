@@ -24,6 +24,24 @@ print_protocol() {
 	echo -e "" #
 }
 
+apply_kde_tweaks() {
+    echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
+    sudo apt install -y bibata-cursor-theme
+    sudo apt install -y --no-install-recommends nemo
+    gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
+    xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+}
+
+apply_gnome_tweaks() {
+    echo -e "${BBlu}[*]: Applying GNOME tweaks...${RCol}"
+    sudo apt install -y gufw gnome-tweaks bibata-cursor-theme
+    sudo apt install -y --no-install-recommends nemo
+    gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
+    xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+}
+
+
+
 # --- Initialization ---
 if ! command -v fzf >/dev/null 2>&1; then
     sudo apt update && sudo apt install -y fzf
@@ -61,17 +79,19 @@ case "$MODE" in
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
         # Optional Tailscale login
-		tcflush /dev/tty in 2>/dev/null
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
             echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
-            if [[ "$input_key" == *"tailscale up"* ]]; then
-                sudo $input_key
-            else
-                sudo tailscale up --authkey "$input_key"
+            if [[ -n "$input_key" ]]; then
+                if [[ "$input_key" == *"tailscale up"* ]]; then
+                    sudo $input_key
+                else
+                    sudo tailscale up --authkey "$input_key"
+                fi
             fi
         fi
 
@@ -114,30 +134,30 @@ case "$MODE" in
         id "jellyfin" &>/dev/null && sudo usermod -aG $USER jellyfin && chmod 750 /home/$USER
 
         # Firewall
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
-        # Optional GNOME
-        echo -en "${BBlu}[?]: Apply GNOME patches? (y/n): ${RCol}"
-        read -n 1 confirm_gnome < /dev/tty; echo
-        [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
-
         # Optional Tailscale login
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
             echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
-            if [[ "$input_key" == *"tailscale up"* ]]; then
-                sudo $input_key
-            else
-                sudo tailscale up --authkey "$input_key"
+            if [[ -n "$input_key" ]]; then
+                if [[ "$input_key" == *"tailscale up"* ]]; then
+                    sudo $input_key
+                else
+                    sudo tailscale up --authkey "$input_key"
+                fi
             fi
         fi
 
 		# Optional ZSH
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
@@ -154,6 +174,29 @@ case "$MODE" in
             sudo chsh -s $(which zsh) $USER
             echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
+
+		# --- Tweaks Section ---
+		tcflush /dev/tty in 2>/dev/null
+		echo -en "${BCY}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
+		read -n 1 confirm_tweaks < /dev/tty; echo
+
+		if [[ "$confirm_tweaks" == "y" ]]; then
+			echo -e "${BYel}[#]: Select Tweak Set:${RCol}"
+			# Використовуємо fzf для красивого вибору (як і в основному меню)
+			TWEAK_MODE=$(echo -e "1. GNOME Tweaks\n2. KDE Tweaks\n3. CANCEL" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
+
+			case "$TWEAK_MODE" in
+				*"GNOME"*)
+					apply_gnome_tweaks
+					;;
+				*"KDE"*)
+					apply_kde_tweaks
+					;;
+				*)
+					echo -e "${Grey}[>]: Tweaks skipped.${RCol}"
+					;;
+			esac
+		fi
 
         echo -e "${BBlu}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
@@ -194,30 +237,30 @@ case "$MODE" in
         sudo flatpak override --filesystem=/usr/share/icons:ro 2>/dev/null
 
         # Firewall
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
         read -n 1 confirm_ufw < /dev/tty; echo
         [[ "$confirm_ufw" == "y" ]] && sudo ufw enable
 
-        # Optional GNOME
-        echo -en "${BBlu}[?]: Apply GNOME patches? (y/n): ${RCol}"
-        read -n 1 confirm_gnome < /dev/tty; echo
-        [[ "$confirm_gnome" == "y" ]] && sudo apt install -y gnome-tweaks gufw bibata-cursor-theme
-
         # Optional Tailscale login
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
         read -n 1 confirm_tailscale < /dev/tty; echo
         if [[ "$confirm_tailscale" == "y" ]]; then
             echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
             read -r input_key < /dev/tty
 
-            if [[ "$input_key" == *"tailscale up"* ]]; then
-                sudo $input_key
-            else
-                sudo tailscale up --authkey "$input_key"
+            if [[ -n "$input_key" ]]; then
+                if [[ "$input_key" == *"tailscale up"* ]]; then
+                    sudo $input_key
+                else
+                    sudo tailscale up --authkey "$input_key"
+                fi
             fi
         fi
 
 		# Optional ZSH
+        tcflush /dev/tty in 2>/dev/null
         echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
         read -n 1 confirm_ZSH < /dev/tty; echo
         if [[ "$confirm_ZSH" == "y" ]]; then
@@ -234,6 +277,29 @@ case "$MODE" in
             sudo chsh -s $(which zsh) $USER
             echo -e "[#]: ZSH configured. Logout and login again to activate ZSH."
         fi
+
+		# --- Tweaks Section ---
+		tcflush /dev/tty in 2>/dev/null
+		echo -en "${BCY}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
+		read -n 1 confirm_tweaks < /dev/tty; echo
+
+		if [[ "$confirm_tweaks" == "y" ]]; then
+			echo -e "${BYel}[#]: Select Tweak Set:${RCol}"
+			# Використовуємо fzf для красивого вибору (як і в основному меню)
+			TWEAK_MODE=$(echo -e "1. GNOME Tweaks\n2. KDE Tweaks\n3. CANCEL" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
+
+			case "$TWEAK_MODE" in
+				*"GNOME"*)
+					apply_gnome_tweaks
+					;;
+				*"KDE"*)
+					apply_kde_tweaks
+					;;
+				*)
+					echo -e "${Grey}[>]: Tweaks skipped.${RCol}"
+					;;
+			esac
+		fi
 
         echo -e "${BBlu}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y

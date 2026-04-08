@@ -26,11 +26,10 @@ print_protocol() {
 
 apply_kde_tweaks() {
     echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
-    sudo apt install -y bibata-cursor-theme xed
+    sudo apt install -y bibata-cursor-theme
     sudo apt install -y --no-install-recommends nemo
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
-    xdg-mime default xed.desktop text/plain
 }
 
 apply_gnome_tweaks() {

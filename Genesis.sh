@@ -95,7 +95,7 @@ case "$MODE" in
             fi
         fi
 
-        echo -e "${BBlu}[*]: Upgrading...${RCol}"
+        echo -e "${BCY}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -181,9 +181,9 @@ case "$MODE" in
 		read -n 1 confirm_tweaks < /dev/tty; echo
 
 		if [[ "$confirm_tweaks" == "y" ]]; then
-			echo -e "${BYel}[#]: Select Tweak Set:${RCol}"
+			echo -e "${BBlu}[#]: Select Tweak Set:${RCol}"
 			# Використовуємо fzf для красивого вибору (як і в основному меню)
-			TWEAK_MODE=$(echo -e "1. GNOME Tweaks\n2. KDE Tweaks\n3. CANCEL" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
+			TWEAK_MODE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
 
 			case "$TWEAK_MODE" in
 				*"GNOME"*)
@@ -198,7 +198,7 @@ case "$MODE" in
 			esac
 		fi
 
-        echo -e "${BBlu}[*]: Upgrading...${RCol}"
+        echo -e "${BCY}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 
@@ -280,13 +280,13 @@ case "$MODE" in
 
 		# --- Tweaks Section ---
 		tcflush /dev/tty in 2>/dev/null
-		echo -en "${BCY}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
+		echo -en "${BBlu}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
 		read -n 1 confirm_tweaks < /dev/tty; echo
 
 		if [[ "$confirm_tweaks" == "y" ]]; then
 			echo -e "${BYel}[#]: Select Tweak Set:${RCol}"
 			# Використовуємо fzf для красивого вибору (як і в основному меню)
-			TWEAK_MODE=$(echo -e "1. GNOME Tweaks\n2. KDE Tweaks\n3. CANCEL" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
+			TWEAK_MODE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
 
 			case "$TWEAK_MODE" in
 				*"GNOME"*)
@@ -301,7 +301,7 @@ case "$MODE" in
 			esac
 		fi
 
-        echo -e "${BBlu}[*]: Upgrading...${RCol}"
+        echo -e "${BCY}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
 

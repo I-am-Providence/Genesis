@@ -15,11 +15,11 @@ update_env() {
 print_banner() {
     clear
     echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol} PROTOCOL: ${BRed}GENESIS${RCol}"
-	echo -e "" #
+	#echo -e "" #
 }
 
 print_protocol() {
-    echo -e "${Grey}───────────────────────────────────────────────────────${RCol}"
+    echo -e "${Grey}────────────────────────────────────────${RCol}"
     #echo -e "[>]: PROTOCOL: ${BRed}GENESIS${RCol}"
 	#echo -e "" #
 }
@@ -76,6 +76,8 @@ MODE=$(echo -e "[  CANCEL & EXIT  ]\n──────────────�
 [[ "$MODE" == *CANCEL* ]] && exit 0
 
 # ALL types:
+print_banner
+print_protocol
 echo -e "${BWhI}[>]: Select additional options:${RCol}"
 #echo -e "────────────────────────────────"
 tcflush /dev/tty in 2>/dev/null

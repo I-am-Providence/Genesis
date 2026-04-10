@@ -14,7 +14,7 @@ update_env() {
 
 print_banner() {
     echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol} PROTOCOL: ${BRed}GENESIS${RCol}"
-	#echo -e "" #
+	echo -e "" #
 }
 
 print_protocol() {
@@ -82,10 +82,10 @@ print_protocol
 echo -e "${BWhI}[>]: Select additional options:${RCol}"
 #echo -e "────────────────────────────────"
 tcflush /dev/tty in 2>/dev/null
-echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
+echo -en "${BGre}[?]: Login to Tailscale with key? (y/n): ${RCol}"
 read -n 1 CONFIRM_TS < /dev/tty; echo
 if [[ "$CONFIRM_TS" == "y" ]]; then
-    echo -e "${BYel}[*]: Paste your authkey (or the whole command):${RCol}"
+    echo -e "${BYel}[*]: Paste authkey (or whole command):${RCol}"
     read -r TS_KEY < /dev/tty
 fi
 
@@ -102,7 +102,7 @@ if [[ "$MODE" != *SERVER* ]]; then
     echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
     read -n 1 CONFIRM_JELLY < /dev/tty; echo
        
-    echo -en "${BBlu}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
+    echo -en "${BBlu}[?]: Apply custom (Gnome|KDE) tweaks? (y/n): ${RCol}"
     read -n 1 CONFIRM_TWEAKS < /dev/tty; echo    
     if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
         TWEAK_CHOICE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")

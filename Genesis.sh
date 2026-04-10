@@ -152,8 +152,6 @@ curl https://rclone.org/install.sh | sudo bash
 curl -fsSL https://tailscale.com/install.sh | sh
 
 # Configs based on collected answers
-[[ "$CONFIRM_UFW" == "y" ]] && { sudo ufw allow 22/tcp; sudo ufw allow 8096/tcp; sudo ufw enable; }
-
 if [[ -n "$TS_KEY" ]]; then
     if [[ "$TS_KEY" == *"tailscale up"* ]]; then sudo $TS_KEY; else sudo tailscale up --authkey "$TS_KEY"; fi
 fi
@@ -163,6 +161,14 @@ fi
 if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
     [[ "$TWEAK_CHOICE" == *"GNOME"* ]] && apply_gnome_tweaks
     [[ "$TWEAK_CHOICE" == *"KDE"* ]] && apply_kde_tweaks
+fi
+
+if [[ "$CONFIRM_UFW" == "y" ]]; then
+    echo -e "${BRed}[*]: Activating Firewall...${RCol}"
+    sudo apt install -y ufw
+    sudo ufw allow 22/tcp
+    sudo ufw allow 8096/tcp
+    sudo ufw --force enable
 fi
 
 echo -e "${BCY}[*]: Upgrading...${RCol}"

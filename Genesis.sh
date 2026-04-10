@@ -76,7 +76,7 @@ MODE=$(echo -e "[  CANCEL & EXIT  ]\n──────────────�
 [[ "$MODE" == *CANCEL* ]] && exit 0
 
 # ALL types:
-print_banner
+clear
 print_protocol
 echo -e "${BWhI}[>]: Select additional options:${RCol}"
 #echo -e "────────────────────────────────"

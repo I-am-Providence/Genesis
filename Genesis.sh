@@ -14,14 +14,14 @@ update_env() {
 
 print_banner() {
     clear
-    echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol}"
+    echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol} PROTOCOL: ${BRed}GENESIS${RCol}"
 	echo -e "" #
 }
 
 print_protocol() {
-    # echo -e "${Grey}--------------------------${RCol}"
-    echo -e "[>]: PROTOCOL: ${BRed}GENESIS${RCol}"
-	echo -e "" #
+    echo -e "${Grey}───────────────────────────────────────────────────────${RCol}"
+    #echo -e "[>]: PROTOCOL: ${BRed}GENESIS${RCol}"
+	#echo -e "" #
 }
 
 setup_zsh() {
@@ -70,14 +70,14 @@ fi
 print_banner
 print_protocol
 echo -e "${BYel}[>]: Select installation type:${RCol}"
-echo -e "──────────────────────────────"
+#echo -e "──────────────────────────────"
 MODE=$(echo -e "[  CANCEL & EXIT  ]\n───────────────────\n[ LOCAL COMPUTER  ]\n[ VIRTUAL MACHINE ]\n[ SERVER (DEBIAN) ]" | fzf --height 15% --reverse --border)
 
 [[ "$MODE" == *CANCEL* ]] && exit 0
 
 # ALL types:
 echo -e "${BWhI}[>]: Select additional options:${RCol}"
-echo -e "────────────────────────────────"
+#echo -e "────────────────────────────────"
 tcflush /dev/tty in 2>/dev/null
 echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
 read -n 1 CONFIRM_TS < /dev/tty; echo

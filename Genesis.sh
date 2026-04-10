@@ -69,12 +69,15 @@ fi
 
 print_banner
 print_protocol
-echo -e "${BYel}[?]: Select installation type:${RCol}"
+echo -e "${BYel}[>]: Select installation type:${RCol}"
+echo -e "──────────────────────────────"
 MODE=$(echo -e "[  CANCEL & EXIT  ]\n───────────────────\n[ LOCAL COMPUTER  ]\n[ VIRTUAL MACHINE ]\n[ SERVER (DEBIAN) ]" | fzf --height 15% --reverse --border)
 
 [[ "$MODE" == *CANCEL* ]] && exit 0
 
 # ALL types:
+echo -e "${BWhI}[>]: Select additional options:${RCol}"
+echo -e "────────────────────────────────"
 tcflush /dev/tty in 2>/dev/null
 echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
 read -n 1 CONFIRM_TS < /dev/tty; echo
@@ -89,7 +92,7 @@ if [[ "$MODE" != *SERVER* ]]; then
     echo -en "${BRed}[?]: Enable Firewall (ufw)? (y/n): ${RCol}"
     read -n 1 CONFIRM_UFW < /dev/tty; echo
 
-    echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
+    echo -en "${BYel}[?]: Install ZSH? (y/n): ${RCol}"
     read -n 1 CONFIRM_ZSH < /dev/tty; echo
     [[ "$CONFIRM_ZSH" == "y" ]] && { echo -en "${BCY}[?]: Apply Kali-style .zshrc config? (y/n): ${RCol}"; read -n 1 CONFIRM_KALI < /dev/tty; echo; }
 

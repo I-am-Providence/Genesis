@@ -13,7 +13,6 @@ update_env() {
 }
 
 print_banner() {
-    clear
     echo -e "${BPUR}[#]: SEED OF EXPANSION ${RCol} PROTOCOL: ${BRed}GENESIS${RCol}"
 	#echo -e "" #
 }
@@ -67,6 +66,7 @@ if ! command -v fzf >/dev/null 2>&1; then
     sudo apt update && sudo apt install -y fzf
 fi
 
+clear
 print_banner
 print_protocol
 echo -e "${BYel}[>]: Select installation type:${RCol}"
@@ -77,6 +77,7 @@ MODE=$(echo -e "[  CANCEL & EXIT  ]\n──────────────�
 
 # ALL types:
 clear
+print_banner
 print_protocol
 echo -e "${BWhI}[>]: Select additional options:${RCol}"
 #echo -e "────────────────────────────────"
@@ -111,8 +112,6 @@ else
 fi
 
 # --- 2. EXECUTION PHASE ---
-print_banner
-print_protocol
 
 # JELLYFIN FIRST (to respect its manual confirmation prompt)
 if [[ "$CONFIRM_JELLY" == "y" ]]; then

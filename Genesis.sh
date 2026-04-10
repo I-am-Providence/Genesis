@@ -121,7 +121,7 @@ fi
 case "$MODE" in
     "[ SERVER (DEBIAN) ]")
         echo -e "[$]: MODE: ${BYel}SERVER (DEBIAN) ${RCol}\n"
-        for dir in "/Polaris" "/Colosseum" "/Ark" "/Ark/Backups"; do sudo mkdir -p "$dir" && sudo chown -R $USER:$USER "$dir"; done
+        for dir in "/Yggdrasil" "/Colosseum" "/Ark" "/Ark/Backups"; do sudo mkdir -p "$dir" && sudo chown -R $USER:$USER "$dir"; done
         sudo apt update
         sudo apt install -y python3 fzf rsync tar curl openssh-server ncdu tree transmission-daemon acl bc jq rename iptables-persistent screen
         ;;

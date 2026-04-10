@@ -74,11 +74,8 @@ MODE=$(echo -e "[  CANCEL & EXIT  ]\n──────────────�
 
 [[ "$MODE" == *CANCEL* ]] && exit 0
 
-# Collect all answers upfront
+# ALL types:
 tcflush /dev/tty in 2>/dev/null
-echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
-read -n 1 CONFIRM_UFW < /dev/tty; echo
-
 echo -en "${BGre}[?]: Log in to Tailscale with authkey? (y/n): ${RCol}"
 read -n 1 CONFIRM_TS < /dev/tty; echo
 if [[ "$CONFIRM_TS" == "y" ]]; then
@@ -86,19 +83,26 @@ if [[ "$CONFIRM_TS" == "y" ]]; then
     read -r TS_KEY < /dev/tty
 fi
 
+# Only local and vm (not server):
 if [[ "$MODE" != *SERVER* ]]; then
+    tcflush /dev/tty in 2>/dev/null
+    echo -en "${BRed}[?]: Enable Firewall (ufw)? (y/n): ${RCol}"
+    read -n 1 CONFIRM_UFW < /dev/tty; echo
+
     echo -en "${BPUR}[?]: Install ZSH? (y/n): ${RCol}"
     read -n 1 CONFIRM_ZSH < /dev/tty; echo
     [[ "$CONFIRM_ZSH" == "y" ]] && { echo -en "${BCY}[?]: Apply Kali-style .zshrc config? (y/n): ${RCol}"; read -n 1 CONFIRM_KALI < /dev/tty; echo; }
 
-	echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
+    echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
     read -n 1 CONFIRM_JELLY < /dev/tty; echo
-	   
-	echo -en "${BBlu}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
-    read -n 1 CONFIRM_TWEAKS < /dev/tty; echo	
-	if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
-    TWEAK_CHOICE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
+       
+    echo -en "${BBlu}[?]: Apply custom DE tweaks (Gnome|KDE)? (y/n): ${RCol}"
+    read -n 1 CONFIRM_TWEAKS < /dev/tty; echo    
+    if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
+        TWEAK_CHOICE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
     fi
+else
+    CONFIRM_UFW="n"
 fi
 
 # --- 2. EXECUTION PHASE ---
@@ -126,7 +130,7 @@ case "$MODE" in
         sudo mkdir -p "/mnt/Bifrost" && sudo chown $USER:$USER "/mnt/Bifrost"
         
         sudo apt update
-        COMMON_APPS="python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc rename git screen"
+        COMMON_APPS="ufw python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc rename git screen"
         [[ "$MODE" == *"LOCAL"* ]] && COMMON_APPS="$COMMON_APPS qbittorrent flatpak"
         sudo apt install -y $COMMON_APPS
         
@@ -158,7 +162,7 @@ if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
 fi
 
 echo -e "${BCY}[*]: Upgrading...${RCol}"
-sudo apt upgrade -y
+sudo apt update && sudo apt full-upgrade -y
 
 # --- Final Phase ---
 tcflush /dev/tty in 2>/dev/null

@@ -129,10 +129,6 @@ case "$MODE" in
         update_env "QT_LOGGING_RULES" "\"qt.svg*.warning=false\""
 		sudo usermod -aG vboxsf $USER
 
-        # Media
-        curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
-        id "jellyfin" &>/dev/null && sudo usermod -aG $USER jellyfin && chmod 750 /home/$USER
-
         # Firewall
         tcflush /dev/tty in 2>/dev/null
         echo -en "${BRed}[?]: Enable Firewall? (y/n): ${RCol}"
@@ -197,6 +193,26 @@ case "$MODE" in
 			esac
 		fi
 
+        # Optional jellyfin
+        tcflush /dev/ttyin 2>/dev/null
+        echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
+        read -n 1 confirm_jellyfin < /dev/tty; echo
+
+        if [[ "$confirm_jellyfin" == "y" || "$confirm_jellyfin" == "Y" ]]; then
+            # Завантажуємо та встановлюємо
+            curl -s https://repo.jellyfin.org/install-debuntu.sh -o install-jellyfin.sh
+            sudo bash install-jellyfin.sh
+            rm install-jellyfin.sh
+
+            # Налаштування прав
+            if id "jellyfin" &>/dev/null; then
+                sudo usermod -aG "$USER" jellyfin
+                chmod 750 "/home/$USER"
+                # Налаштування Flatpak (якщо потрібно)
+                sudo flatpak override --filesystem=/usr/share/icons:ro 2>/dev/null
+            fi
+        fi
+
         echo -e "${BCY}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
@@ -229,11 +245,6 @@ case "$MODE" in
         # Fixes
         update_env "QT_QPA_PLATFORMTHEME" "qt5ct"
         update_env "QT_LOGGING_RULES" "\"qt.svg*.warning=false\""
-
-        # Media
-        curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash
-        id "jellyfin" &>/dev/null && sudo usermod -aG $USER jellyfin && chmod 750 /home/$USER
-        sudo flatpak override --filesystem=/usr/share/icons:ro 2>/dev/null
 
         # Firewall
         tcflush /dev/tty in 2>/dev/null
@@ -299,6 +310,26 @@ case "$MODE" in
 			esac
 		fi
 
+        # Optional jellyfin
+        tcflush /dev/ttyin 2>/dev/null
+        echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
+        read -n 1 confirm_jellyfin < /dev/tty; echo
+
+        if [[ "$confirm_jellyfin" == "y" || "$confirm_jellyfin" == "Y" ]]; then
+            # Завантажуємо та встановлюємо
+            curl -s https://repo.jellyfin.org/install-debuntu.sh -o install-jellyfin.sh
+            sudo bash install-jellyfin.sh
+            rm install-jellyfin.sh
+
+            # Налаштування прав
+            if id "jellyfin" &>/dev/null; then
+                sudo usermod -aG "$USER" jellyfin
+                chmod 750 "/home/$USER"
+                # Налаштування Flatpak (якщо потрібно)
+                sudo flatpak override --filesystem=/usr/share/icons:ro 2>/dev/null
+            fi
+        fi
+
         echo -e "${BCY}[*]: Upgrading...${RCol}"
         sudo apt upgrade -y
         ;;
@@ -310,7 +341,21 @@ case "$MODE" in
 esac
 
 # --- Final Phase ---
+tcflush /dev/tty in 2>/dev/null
 echo -e "\n${BGre}[#]: DONE. Genesis finished.${RCol}"
+
+if [ -f "./Expansion.py" ]; then
+    echo -en "${BYel}[?]: Launch Expansion Protocol? (y/n): ${RCol}"
+    read -n 1 confirm_exp < /dev/tty; echo
+    if [[ "$confirm_exp" == "y" ]]; then
+        chmod +x ./Expansion.py
+        python3 ./Expansion.py
+    else
+        echo -e "${Grey}[!]: Expansion Protocol skipped.${RCol}"
+    fi
+else
+    echo -e "${BRed}[X]:${RCol} ERROR. Expansion.py not found."
+fi
 
 # --- Keep terminal open for log review ---
 while read -r -t 0; do read -r -n 1; done 2>/dev/null
@@ -319,3 +364,4 @@ echo -e "${BYel}[!]: Press any key to exit terminal.${RCol}"
 read -rsn 1 < /dev/tty
 
 exit 0
+

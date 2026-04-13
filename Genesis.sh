@@ -123,7 +123,7 @@ case "$MODE" in
         echo -e "[$]: MODE: ${BYel}SERVER (DEBIAN) ${RCol}\n"
         for dir in "/Yggdrasil" "/Colosseum" "/Ark" "/Ark/Backups"; do sudo mkdir -p "$dir" && sudo chown -R $USER:$USER "$dir"; done
         sudo apt update
-        sudo apt install -y python3 fzf rsync tar curl openssh-server ncdu tree transmission-daemon acl bc jq rename iptables-persistent screen micro
+        sudo apt install -y python3 fzf rsync tar curl openssh-server ncdu tree transmission-daemon acl bc jq rename iptables-persistent screen
         ;;
 
     "[ VIRTUAL MACHINE ]"|"[ LOCAL COMPUTER  ]")
@@ -134,7 +134,7 @@ case "$MODE" in
         sudo mkdir -p "/mnt/Bifrost" && sudo chown $USER:$USER "/mnt/Bifrost"
         
         sudo apt update
-        COMMON_APPS="ufw python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc rename git screen micro"
+        COMMON_APPS="ufw python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc rename git screen"
         [[ "$MODE" == *"LOCAL"* ]] && COMMON_APPS="$COMMON_APPS qbittorrent flatpak"
         sudo apt install -y $COMMON_APPS
         

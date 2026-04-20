@@ -53,8 +53,21 @@ apply_kde_tweaks() {
 	# Fix: Nemo & Terminal
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
     gsettings set org.gnome.desktop.default-applications.terminal exec 'konsole'
-	gsettings set org.gnome.desktop.default-applications.terminal exec-arg '-e'
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+
+# FIX TERMINAL
+    mkdir -p "$HOME/.local/share/nemo/actions"
+    cat << "EOF" > "$HOME/.local/share/nemo/actions/open_konsole.nemo_action"
+[Nemo Action]
+Active=true
+Name=Open in Konsole
+Comment=Open Konsole here
+Icon-Name=utilities-terminal
+Selection=none
+Extensions=dir;
+Quote=double
+Exec=konsole --workdir %P
+EOF
 
 	# Root Fix Nemo
     mkdir -p "$HOME/.local/share/nemo/actions"
@@ -71,11 +84,21 @@ Quote=double
 Exec=pkexec nemo %U
 EOF
 
+	# Deleting default Open as root & Open in terminal
+	cat << "EOF" > "$HOME/.local/share/nemo/actions/nemo-terminal-action.nemo_action"
+[Nemo Action]
+Active=false
+EOF
+
+    cat << "EOF" > "$HOME/.local/share/nemo/actions/open-as-root.nemo_action"
+[Nemo Action]
+Active=false
+EOF
+
 	# Fix: NumLock ON
 	# 0 - ON, 1 - OFF, 2 - DEFAULT
     kwriteconfig6 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null || \
-    kwriteconfig5 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null
-	
+    kwriteconfig5 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null	
 }
 
 apply_gnome_tweaks() {

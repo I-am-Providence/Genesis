@@ -50,6 +50,7 @@ apply_kde_tweaks() {
     sudo apt install -y bibata-cursor-theme
     sudo apt install -y --no-install-recommends nemo
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
+	gsettings set org.gnome.desktop.default-applications.terminal exec 'x-terminal-emulator'
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
 }
 

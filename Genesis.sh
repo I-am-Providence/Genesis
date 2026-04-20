@@ -47,12 +47,13 @@ install_jellyfin() {
 
 apply_kde_tweaks() {
     echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
-    sudo apt install -y --no-install-recommends nemo
+    sudo apt install -y --no-install-recommends nemo konsole
     sudo apt install -y bibata-cursor-theme nemo-fileroller policykit-1-gnome dbus-x11
 
 	# Fix: Nemo & Terminal
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
-    gsettings set org.gnome.desktop.default-applications.terminal exec 'x-terminal-emulator'
+    gsettings set org.gnome.desktop.default-applications.terminal exec 'konsole'
+	gsettings set org.gnome.desktop.default-applications.terminal exec-arg '-e'
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
 
 	# Root Fix Nemo

@@ -63,8 +63,7 @@ apply_kde_tweaks() {
 [Nemo Action]
 Active=true
 Name=Open as Administrator (Fix)
-Name[uk]=Відкрити як адміністратор (Fix)
-Comment=Відкрити теку з правами Root через pkexec
+Comment=Open As Root pkexec
 Icon-Name=gksu-root-terminal
 Selection=any
 Extensions=dir;

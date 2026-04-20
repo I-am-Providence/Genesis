@@ -49,14 +49,15 @@ apply_kde_tweaks() {
     echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
     sudo apt install -y --no-install-recommends nemo
     sudo apt install -y bibata-cursor-theme nemo-fileroller policykit-1-gnome dbus-x11
-    
+
+	# Fix: Nemo & Terminal
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
     gsettings set org.gnome.desktop.default-applications.terminal exec 'x-terminal-emulator'
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
 
+	# Root Fix Nemo
     mkdir -p "$HOME/.local/share/nemo/actions"
 
-    # Використовуємо <<"EOF" (в лапках), щоб вміст записався символьно
     cat << "EOF" > "$HOME/.local/share/nemo/actions/root_fix.nemo_action"
 [Nemo Action]
 Active=true
@@ -69,6 +70,12 @@ Extensions=dir;
 Quote=double
 Exec=pkexec nemo %U
 EOF
+
+	# Fix: NumLock ON
+	# 0 - ON, 1 - OFF, 2 - DEFAULT
+    kwriteconfig6 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null || \
+    kwriteconfig5 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null
+	
 }
 
 apply_gnome_tweaks() {

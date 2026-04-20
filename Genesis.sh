@@ -84,17 +84,6 @@ Quote=double
 Exec=pkexec nemo %U
 EOF
 
-	# Deleting default Open as root & Open in terminal
-	cat << "EOF" > "$HOME/.local/share/nemo/actions/nemo-terminal-action.nemo_action"
-[Nemo Action]
-Active=false
-EOF
-
-    cat << "EOF" > "$HOME/.local/share/nemo/actions/open-as-root.nemo_action"
-[Nemo Action]
-Active=false
-EOF
-
 	# Fix: NumLock ON
 	# 0 - ON, 1 - OFF, 2 - DEFAULT
     kwriteconfig6 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null || \

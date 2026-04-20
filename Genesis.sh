@@ -47,11 +47,28 @@ install_jellyfin() {
 
 apply_kde_tweaks() {
     echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
-    sudo apt install -y bibata-cursor-theme
     sudo apt install -y --no-install-recommends nemo
+    sudo apt install -y bibata-cursor-theme nemo-fileroller policykit-1-gnome dbus-x11
+    
     gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
-	gsettings set org.gnome.desktop.default-applications.terminal exec 'x-terminal-emulator'
+    gsettings set org.gnome.desktop.default-applications.terminal exec 'x-terminal-emulator'
     xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+
+    mkdir -p "$HOME/.local/share/nemo/actions"
+
+    # Використовуємо <<"EOF" (в лапках), щоб вміст записався символьно
+    cat << "EOF" > "$HOME/.local/share/nemo/actions/root_fix.nemo_action"
+[Nemo Action]
+Active=true
+Name=Open as Administrator (Fix)
+Name[uk]=Відкрити як адміністратор (Fix)
+Comment=Відкрити теку з правами Root через pkexec
+Icon-Name=gksu-root-terminal
+Selection=any
+Extensions=dir;
+Quote=double
+Exec=pkexec nemo %U
+EOF
 }
 
 apply_gnome_tweaks() {

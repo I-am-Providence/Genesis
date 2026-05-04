@@ -47,47 +47,12 @@ install_jellyfin() {
 
 apply_kde_tweaks() {
     echo -e "${BBlu}[*]: Applying KDE tweaks...${RCol}"
-    sudo apt install -y --no-install-recommends nemo konsole
-    sudo apt install -y bibata-cursor-theme nemo-fileroller policykit-1-gnome dbus-x11
-
-	# Fix: Nemo & Terminal
-    gsettings set org.nemo.desktop show-desktop-icons false 2>/dev/null
-    gsettings set org.gnome.desktop.default-applications.terminal exec 'konsole'
-    xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
-
-# FIX TERMINAL
-    mkdir -p "$HOME/.local/share/nemo/actions"
-    cat << "EOF" > "$HOME/.local/share/nemo/actions/open_konsole.nemo_action"
-[Nemo Action]
-Active=true
-Name=Open in Konsole
-Comment=Open Konsole here
-Icon-Name=utilities-terminal
-Selection=none
-Extensions=dir;
-Quote=double
-Exec=konsole --workdir %P
-EOF
-
-	# Root Fix Nemo
-    mkdir -p "$HOME/.local/share/nemo/actions"
-
-    cat << "EOF" > "$HOME/.local/share/nemo/actions/root_fix.nemo_action"
-[Nemo Action]
-Active=true
-Name=Open as Administrator (Fix)
-Comment=Open As Root pkexec
-Icon-Name=gksu-root-terminal
-Selection=any
-Extensions=dir;
-Quote=double
-Exec=pkexec nemo %U
-EOF
+    sudo apt install -y bibata-cursor-theme
 
 	# Fix: NumLock ON
 	# 0 - ON, 1 - OFF, 2 - DEFAULT
     kwriteconfig6 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null || \
-    kwriteconfig5 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null	
+    kwriteconfig5 --file kcminputrc --group Keyboard --key NumLock 0 2>/dev/null
 }
 
 apply_gnome_tweaks() {
@@ -138,9 +103,9 @@ if [[ "$MODE" != *SERVER* ]]; then
 
     echo -en "${BPUR}[?]: Install Jellyfin? (y/n): ${RCol}"
     read -n 1 CONFIRM_JELLY < /dev/tty; echo
-       
+
     echo -en "${BBlu}[?]: Apply custom (Gnome|KDE) tweaks? (y/n): ${RCol}"
-    read -n 1 CONFIRM_TWEAKS < /dev/tty; echo    
+    read -n 1 CONFIRM_TWEAKS < /dev/tty; echo
     if [[ "$CONFIRM_TWEAKS" == "y" ]]; then
         TWEAK_CHOICE=$(echo -e "[ GNOME DE ]\n[  KDE DE  ]\n[  CANCEL  ]" | fzf --height 10% --reverse --border --header="Choose your desktop environment:")
     fi
@@ -166,20 +131,20 @@ case "$MODE" in
     "[ VIRTUAL MACHINE ]"|"[ LOCAL COMPUTER  ]")
         [[ "$MODE" == *"VIRTUAL"* ]] && COL="${BBlu}" || COL="${BGre}"
         echo -e "[$]: MODE: ${COL}${MODE}${RCol}\n"
-        
+
         for dir in "/Yggdrasil" "/Ark" "/Ark/Backups"; do sudo mkdir -p "$dir" && sudo chown -R $USER:$USER "$dir"; done
         sudo mkdir -p "/mnt/Bifrost" && sudo chown $USER:$USER "/mnt/Bifrost"
-        
+
         sudo apt update
         COMMON_APPS="ufw python3 fzf rsync tar curl openssh-server transmission-remote-gtk tree ncdu vlc fuse3 qt5ct qt5-style-plugins jq bc rename git screen"
         [[ "$MODE" == *"LOCAL"* ]] && COMMON_APPS="$COMMON_APPS qbittorrent flatpak"
         sudo apt install -y $COMMON_APPS
-        
+
         sudo sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf
         update_env "QT_QPA_PLATFORMTHEME" "qt5ct"
         update_env "QT_LOGGING_RULES" "\"qt.svg*.warning=false\""
         [[ "$MODE" == *"VIRTUAL"* ]] && sudo usermod -aG vboxsf $USER
-        
+
         curl -fsS https://dl.brave.com/install.sh | sh
         ;;
 esac
@@ -235,4 +200,3 @@ echo -e "${BYel}[!]: Press any key to exit terminal.${RCol}"
 read -rsn 1 < /dev/tty
 
 exit 0
-
